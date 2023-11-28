@@ -10,6 +10,7 @@ const debug = require("debug")("app");
 require("dotenv").config();
 
 const indexRouter = require("./routes/index");
+const inventoryRouter = require("./routes/inventory");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // routes
 app.use("/", indexRouter);
+app.use("/inventory", inventoryRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

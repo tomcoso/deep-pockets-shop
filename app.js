@@ -23,8 +23,8 @@ async function main() {
   await mongoose.connect(mongoDB);
 }
 
-const RateLimiter = require("express-rate-limiter");
-const limiter = RateLimiter({
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
   max: 20,
 });

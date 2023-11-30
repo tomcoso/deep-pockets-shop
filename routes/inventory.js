@@ -39,7 +39,7 @@ router.get("/category/create", category_controller.category_create_get);
 router.post("/category/create", category_controller.category_create_post);
 
 // update
-router.get("/category/update", category_controller.category_update);
+router.get("/category/update", category_controller.category_update_get);
 router.post("/category/update", category_controller.category_update_post);
 
 // delete

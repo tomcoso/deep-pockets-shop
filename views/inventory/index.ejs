@@ -1,1 +1,28 @@
-<h1><%= title %></h1>
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+<main>
+  <div>
+    <h2>Categories</h4>
+    <p>Total: <%= categories.length %></p>
+    <ul class="list">
+      <% categories.forEach(cat => { %>
+      <li><a href="<%= cat.url %>"><%= cat.name %></a></li>
+      <% }) %>
+    </ul>
+  </div>
+  <br />
+  <hr />
+  <br />
+  <div>
+    <h2>Products</h4>
+    <p>Total: <%= products.length %></p>
+    <ul class="list">
+      <% categories.forEach(cat => { %>
+      <li>
+        <%= cat.name %>: <%= products.filter(p => p.category.toString() ===
+        cat._id.toString()).length %>
+      </li>
+      <% }) %>
+    </ul>
+  </div>
+</main>
+<%- include('../footer') %>

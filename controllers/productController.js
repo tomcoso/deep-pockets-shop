@@ -1,6 +1,20 @@
-const Product = require("/models/product");
+const Product = require("../models/product");
+const Category = require("../models/category");
 
 const asyncHandler = require("express-async-handler");
+
+exports.inventory_index = asyncHandler(async (req, res, next) => {
+  const [products, categories] = await Promise.all([
+    Product.find({}, "category stock").exec(),
+    Category.find({}).exec(),
+  ]);
+
+  res.render("inventory/index", {
+    title: "Inventory Index",
+    products,
+    categories,
+  });
+});
 
 exports.product_list_all = asyncHandler(async (req, res, next) => {
   const allProducts = await Product.find({}).exec();

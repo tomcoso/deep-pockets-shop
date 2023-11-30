@@ -1,12 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const product_controller = require("/controllers/product");
-const category_controller = require("/controllers/category");
+const product_controller = require("../controllers/productController");
+const category_controller = require("../controllers/categoryController");
 
-router.get("/", function (req, res, next) {
-  res.render("inventory/index", { title: "Deep Pockets Shop" });
-});
+router.get("/", product_controller.inventory_index);
 
 // PRODUCTS --------------------------------------------------------
 router.get("/products/all", product_controller.product_list_all);

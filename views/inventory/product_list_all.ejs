@@ -1,0 +1,17 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <h1>All products %></h1>
+  <div>
+    <ul class="list">
+      <% products.forEach(item => { %>
+      <li>
+        <a href="<%= item.url %>"><%= item.name %></a> | $<%= item.price %> |
+        stock: <%= item.stock %>
+      </li>
+      <% }) %>
+    </ul>
+  </div>
+</main>
+
+<%- include('../footer') %>

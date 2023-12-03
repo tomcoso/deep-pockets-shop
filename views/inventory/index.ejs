@@ -18,8 +18,11 @@
     <ul class="list">
       <% categories.forEach(cat => { %>
       <li>
-        <%= cat.name %>: <%= products.filter(p => p.category.toString() ===
-        cat._id.toString()).length %>
+        <a href="/inventory/products/<%= cat.name %>">
+          <%= cat.name %>: <%= products.filter(p => p.category.toString() ===
+          cat._id.toString()).length %>
+
+        </a>
       </li>
       <% }) %>
     </ul>

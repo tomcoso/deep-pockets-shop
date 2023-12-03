@@ -3,6 +3,8 @@ const Category = require("../models/category");
 
 const asyncHandler = require("express-async-handler");
 
+const debug = require("debug")("deep-pockets-shop:product");
+
 exports.inventory_index = asyncHandler(async (req, res, next) => {
   const [products, categories] = await Promise.all([
     Product.find({}, "category stock").exec(),
@@ -17,7 +19,9 @@ exports.inventory_index = asyncHandler(async (req, res, next) => {
 });
 
 exports.product_list_all = asyncHandler(async (req, res, next) => {
-  const allProducts = await Product.find({}).exec();
+  const allProducts = await Product.find({}).sort({ name: 1 }).exec();
+
+  // debug("all products: ", allProducts);
 
   res.render("inventory/product_list_all", {
     title: "All products",
@@ -26,13 +30,17 @@ exports.product_list_all = asyncHandler(async (req, res, next) => {
 });
 
 exports.product_list_category = asyncHandler(async (req, res, next) => {
+  const category = await Category.findOne({ name: req.params.category }).exec();
   const productsByCategory = await Product.find({
-    category: req.params.category,
+    category: category,
   }).exec();
 
-  res.render("inventory/products_list_category", {
-    title: `${req.params.category}`,
+  debug("category: ", category);
+
+  res.render("inventory/product_list_category", {
+    title: `Shop ${req.params.category}`,
     products: productsByCategory,
+    category: category,
   });
 });
 

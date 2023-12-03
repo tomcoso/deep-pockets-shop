@@ -1,0 +1,15 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <h1><%= title %></h1>
+  <br />
+  <hr />
+  <br />
+  <div>
+    <p><%= category.description %></p>
+    <br />
+    <p><a href="/inventory/products/<%= category.name %>">See products</a></p>
+  </div>
+</main>
+
+<%- include('../footer') %>

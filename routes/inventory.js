@@ -10,8 +10,7 @@ router.get("/", product_controller.inventory_index);
 router.get("/products/all", product_controller.product_list_all);
 
 // products CRUD
-router.get("/products/detail/:id", product_controller.product_detail);
-
+router.get("/products/:id/detail", product_controller.product_detail);
 // create
 router.get("/products/create", product_controller.product_create_get);
 router.post("/products/create", product_controller.product_create_post);

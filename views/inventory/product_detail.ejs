@@ -13,6 +13,15 @@
   <div>
     <p><%= product.description %></p>
   </div>
+  <br />
+  <nav>
+    <a href="<%= '/inventory/products/' + product._id + '/update' %>"
+      >Update product</a
+    >
+    <a href="<%= '/inventory/products/' + product._id + '/delete' %>"
+      >Delete product</a
+    >
+  </nav>
 </main>
 
 <%- include('../footer') %>

@@ -1,0 +1,54 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <form action="" method="post">
+    <div>
+      <label for="name">Product name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Wand of.."
+        required
+        value="<%= product ? product.name : '' %>"
+      />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea
+        name="description"
+        id="description"
+        cols="30"
+        rows="10"
+        placeholder="This wand will.."
+        required
+      >
+<%= product ? product.description : '' %></textarea
+      >
+    </div>
+    <div>
+      <label for="category">Category:</label>
+      <select name="category" id="category" required aria-placeholder="Select category">
+        <% categories.forEach(cat => { %>
+          <option value="<%= cat._id %>" <%= product ? product.category._id.toString() === cat._id.toString() ? 'selected' : '' : '' %>><%= cat.name %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div>
+      <label for="price">Price:</label>
+      <input type="number" name="price" id="price" required value="<%= product ? product.price : '' %>" placeholder="167">
+    </div>
+    <div>
+      <label for="stock">Stock:</label>
+      <input type="number" name="stock" id="stock" required value="<%= product ? product.stock : '' %>" placeholder="13">
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <ul>
+    <% if (errors) { %> <% errors.forEach(err => { %>
+    <li><%= err.msg %></li>
+    <%})%> <% } %>
+  </ul>
+</main>
+
+<%- include('../footer') %>

@@ -190,5 +190,29 @@ exports.product_update_post = [
   }),
 ];
 
-exports.product_delete_get = asyncHandler(async (req, res, next) => {});
-exports.product_delete_post = asyncHandler(async (req, res, next) => {});
+exports.product_delete_get = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id)
+    .populate("category")
+    .exec();
+
+  if (!product) {
+    res.redirect("/inventory/products/all");
+  }
+
+  res.render("inventory/product_delete", {
+    title: `Delete ${product.name}`,
+    product,
+  });
+});
+
+exports.product_delete_post = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.body.productid).exec();
+
+  if (!product || req.body.productid != req.params.id) {
+    res.redirect("/inventory/products/all");
+    return;
+  } else {
+    await Product.findByIdAndDelete(product._id);
+    res.redirect("/inventory/products/all");
+  }
+});

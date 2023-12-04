@@ -1,0 +1,36 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <div>
+    <h2><%= product.name %></h2>
+    <dl class="list">
+      <dt>Description</dt>
+      <dd><%= product.description %></dd>
+      <br />
+      <dt>Category</dt>
+      <dd>
+        <a href="<%= product.category.url %>"><%= product.category.name %></a>
+      </dd>
+      <br />
+      <dt>Price</dt>
+      <dd><%= product.price %></dd>
+      <br />
+      <dt>Amount in stock</dt>
+      <dd><%= product.stock %></dd>
+    </dl>
+  </div>
+  <form action="" method="post">
+    <p>Do you really want to delete this product?</p>
+
+    <input
+      type="hidden"
+      name="productid"
+      id="productid"
+      value="<%= product._id %>"
+      required
+    />
+    <button type="submit">Delete</button>
+  </form>
+</main>
+
+<%- include('../footer') %>

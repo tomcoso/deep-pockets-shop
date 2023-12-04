@@ -1,0 +1,40 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <div>
+    <h2><%= category.name %></h2>
+    <p><%= category.description %></p>
+  </div>
+  <% if (products.length) { %>
+  <p>
+    <strong
+      >Delete the following products before attempting to delete this
+      category.</strong
+    >
+  </p>
+  <div>
+    <dl class="list">
+      <% products.forEach(item => { %>
+      <dt><a href="<%= item.url %>"><%= item.name %></a></dt>
+      <dd><%= item.description %></dd>
+      <% }) %>
+    </dl>
+  </div>
+  <% } else { %>
+
+  <form action="" method="post">
+    <p>Do you really want to delete this category?</p>
+
+    <input
+      type="hidden"
+      name="categoryid"
+      id="categoryid"
+      value="<%= category._id %>"
+      required
+    />
+    <button type="submit">Delete</button>
+  </form>
+  <% } %>
+</main>
+
+<%- include('../footer') %>

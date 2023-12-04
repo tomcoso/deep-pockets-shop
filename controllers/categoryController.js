@@ -123,5 +123,44 @@ exports.category_update_post = [
   }),
 ];
 
-exports.category_delete_get = asyncHandler(async (req, res, next) => {});
-exports.category_delete_post = asyncHandler(async (req, res, next) => {});
+exports.category_delete_get = asyncHandler(async (req, res, next) => {
+  const [category, categoryProducts] = await Promise.all([
+    Category.findById(req.params.id).exec(),
+    Product.find({ category: req.params.id }).exec(),
+  ]);
+
+  if (!category) {
+    res.redirect("/inventory/category/all");
+    return;
+  }
+
+  res.render("inventory/category_delete", {
+    title: "Delete category",
+    category,
+    products: categoryProducts,
+  });
+});
+
+exports.category_delete_post = asyncHandler(async (req, res, next) => {
+  const [category, categoryProducts] = await Promise.all([
+    Category.findById(req.body.categoryid).exec(),
+    Product.find({ category: req.body.categoryid }).exec(),
+  ]);
+
+  if (!category || req.body.categoryid != req.params.id) {
+    res.redirect("/inventory/category/all");
+    return;
+  }
+
+  if (categoryProducts.length > 0) {
+    res.render("inventory/category_delete", {
+      title: "Delete category",
+      category,
+      products: categoryProducts,
+    });
+    return;
+  } else {
+    await Category.findByIdAndDelete(req.body.categoryid);
+    res.redirect("/inventory/category/all");
+  }
+});

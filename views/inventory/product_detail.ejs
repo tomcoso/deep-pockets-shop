@@ -1,0 +1,18 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <h1><%= product.name %></h1>
+  <p>
+    <a href="<%= product.category.url %>"
+      >Category: <%= product.category.name %></a
+    >
+  </p>
+  <br />
+  <hr />
+  <br />
+  <div>
+    <p><%= product.description %></p>
+  </div>
+</main>
+
+<%- include('../footer') %>

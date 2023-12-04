@@ -12,7 +12,7 @@ router.get("/products/all", product_controller.product_list_all);
 router.get("/products/:category", product_controller.product_list_category);
 
 // products CRUD
-router.get("/products/:id", product_controller.product_detail);
+router.get("/products/detail/:id", product_controller.product_detail);
 
 // create
 router.get("/products/create", product_controller.product_create_get);

@@ -48,6 +48,9 @@ exports.product_detail = asyncHandler(async (req, res, next) => {
   const product = await Product.findById(req.params.id)
     .populate("category")
     .exec();
+
+  debug("category populated: " + !!product.populated("category"));
+
   res.render("inventory/product_detail", {
     title: product.name,
     product,

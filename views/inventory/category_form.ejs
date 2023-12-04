@@ -1,0 +1,38 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <form action="" method="post">
+    <div>
+      <label for="name">Category name:</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Potions.."
+        required
+        value="<%= category ? category.name : '' %>"
+      />
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea
+        name="description"
+        id="description"
+        cols="30"
+        rows="10"
+        placeholder="Best potions in town.."
+        required
+      >
+<%= category ? category.description : '' %></textarea
+      >
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+  <ul>
+    <% if (errors) { %> <% errors.forEach(err => { %>
+    <li><%= err.msg %></li>
+    <%})%> <% } %>
+  </ul>
+</main>
+
+<%- include('../footer') %>

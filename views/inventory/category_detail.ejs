@@ -10,6 +10,10 @@
     <br />
     <p><a href="/inventory/products/<%= category.name %>">See products</a></p>
   </div>
+  <nav>
+    <a href="<%= category.url + '/update' %>">Update category</a><br />
+    <a href="<%= category.url + '/delete' %>">Delete category</a>
+  </nav>
 </main>
 
 <%- include('../footer') %>

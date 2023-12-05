@@ -35,7 +35,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // middleware chain
-// app.use(limiter);
+app.use(limiter);
 app.use(compression());
 app.use(helmet());
 app.use(logger("dev"));

@@ -32,9 +32,15 @@
       value="<%= category._id %>"
       required
     />
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" required />
+    </div>
     <button type="submit">Delete</button>
   </form>
-  <% } %>
+  <% if (error) { %>
+  <li><%= error.msg %></li>
+  <% }} %>
 </main>
 
 <%- include('../footer') %>

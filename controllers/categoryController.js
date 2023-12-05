@@ -61,6 +61,12 @@ exports.category_create_post = [
         category: category,
       });
       return;
+    } else if (req.body.password !== process.env.ADMIN_PASS) {
+      res.render("inventory/category_form", {
+        title: "Create category",
+        errors: [{ msg: "INCORRECT PASSWORD" }],
+        category: category,
+      });
     } else {
       await category.save();
 
@@ -112,6 +118,12 @@ exports.category_update_post = [
         errors: errors.array(),
       });
       return;
+    } else if (req.body.password !== process.env.ADMIN_PASS) {
+      res.render("inventory/category_form", {
+        title: "Update category",
+        category: updatedCategory,
+        errors: [{ msg: "INCORRECT PASSWORD" }],
+      });
     } else {
       await Category.findByIdAndUpdate(
         updatedCategory._id,
@@ -138,6 +150,7 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
     title: "Delete category",
     category,
     products: categoryProducts,
+    error: undefined,
   });
 });
 
@@ -157,8 +170,16 @@ exports.category_delete_post = asyncHandler(async (req, res, next) => {
       title: "Delete category",
       category,
       products: categoryProducts,
+      error: undefined,
     });
     return;
+  } else if (req.body.password !== process.env.ADMIN_PASS) {
+    res.render("inventory/category_delete", {
+      title: "Delete category",
+      category,
+      products: categoryProducts,
+      error: { msg: "INCORRECT PASSWORD" },
+    });
   } else {
     await Category.findByIdAndDelete(req.body.categoryid);
     res.redirect("/inventory/category/all");

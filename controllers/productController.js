@@ -3,10 +3,12 @@ const Category = require("../models/category");
 
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+
 const multer = require("multer");
 const upload = multer({ dest: "public/data/uploads" });
 
 const debug = require("debug")("deep-pockets-shop:product");
+require("dotenv").config();
 
 exports.inventory_index = asyncHandler(async (req, res, next) => {
   const [products, categories] = await Promise.all([
@@ -108,6 +110,14 @@ exports.product_create_post = [
         errors: errors.array(),
       });
       return;
+    } else if (req.body.password !== process.env.ADMIN_PASS) {
+      res.render("inventory/product_form", {
+        title: "Product create",
+        product,
+        categories: allCategories,
+        errors: [{ msg: "INCORRECT PASSWORD" }],
+      });
+      return;
     } else {
       await product.save();
       res.redirect(product.url);
@@ -176,6 +186,14 @@ exports.product_update_post = [
         errors: errors.array(),
       });
       return;
+    } else if (req.body.password !== process.env.ADMIN_PASS) {
+      res.render("inventory/product_form", {
+        title: "Product update",
+        product: updatedProduct,
+        categories: allCategories,
+        errors: [{ msg: "INCORRECT PASSWORD" }],
+      });
+      return;
     } else {
       await Product.findByIdAndUpdate(updatedProduct._id, updatedProduct, {});
       res.redirect(updatedProduct.url);
@@ -195,6 +213,7 @@ exports.product_delete_get = asyncHandler(async (req, res, next) => {
   res.render("inventory/product_delete", {
     title: `Delete ${product.name}`,
     product,
+    error: undefined,
   });
 });
 
@@ -203,6 +222,13 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
 
   if (!product || req.body.productid != req.params.id) {
     res.redirect("/inventory/products/all");
+    return;
+  } else if (req.body.password !== process.env.ADMIN_PASS) {
+    res.render("inventory/product_delete", {
+      title: `Delete ${product.name}`,
+      product,
+      error: { msg: "INCORRECT PASSWORD" },
+    });
     return;
   } else {
     await Product.findByIdAndDelete(product._id);

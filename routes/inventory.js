@@ -23,6 +23,9 @@ router.post("/products/:id/update", product_controller.product_update_post);
 router.get("/products/:id/delete", product_controller.product_delete_get);
 router.post("/products/:id/delete", product_controller.product_delete_post);
 
+router.get("/products/:id/image", product_controller.product_image_get);
+router.post("/products/:id/image", product_controller.product_image_post);
+
 router.get("/products/:category", product_controller.product_list_category);
 
 // CATEGORIES ------------------------------------------------------

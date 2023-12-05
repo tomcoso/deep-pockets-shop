@@ -13,6 +13,15 @@
   <div>
     <p><%= product.description %></p>
   </div>
+  <div>
+    <dl>
+      <dt>Price</dt>
+      <dd><%= product.price %></dd>
+      <dt>Stock</dt>
+      <dd><%= product.stock %></dd>
+    </dl>
+    <img src="<%= '/data/uploads/'+product.imageurl %>" alt="product" />
+  </div>
   <br />
   <nav>
     <a href="<%= '/inventory/products/' + product._id + '/update' %>"
@@ -20,6 +29,9 @@
     >
     <a href="<%= '/inventory/products/' + product._id + '/delete' %>"
       >Delete product</a
+    >
+    <a href="<%= '/inventory/products/' + product._id + '/image' %>"
+      >Upload product image</a
     >
   </nav>
 </main>

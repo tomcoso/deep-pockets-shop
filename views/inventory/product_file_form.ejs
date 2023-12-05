@@ -1,0 +1,21 @@
+<%- include('../head', {title: title}) %> <%- include('../header') %>
+
+<main>
+  <form action="" method="post" enctype="multipart/form-data">
+    <div>
+      <label for="image">Product image:</label>
+      <input type="file" name="image" id="image" />
+    </div>
+    <div>
+      <img src="<%='/data/uploads/' + product.imageurl %>" alt="product" />
+    </div>
+    <button type="submit">Upload</button>
+  </form>
+  <ul>
+    <% if (errors) { %> <% errors.forEach(err => { %>
+    <li><%= err.msg %></li>
+    <%})%> <% } %>
+  </ul>
+</main>
+
+<%- include('../footer') %>

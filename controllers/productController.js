@@ -3,6 +3,8 @@ const Category = require("../models/category");
 
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
+const multer = require("multer");
+const upload = multer({ dest: "public/data/uploads" });
 
 const debug = require("debug")("deep-pockets-shop:product");
 
@@ -74,18 +76,12 @@ exports.product_create_post = [
     .trim()
     .isLength({ min: 3 })
     .withMessage("Name must be at least 3 characters long.")
-    .escape()
-    .isAlphanumeric()
-    .withMessage("Name must only contain alphanumeric characters."),
+    .escape(),
   body("description")
     .trim()
     .isLength({ min: 10 })
     .withMessage("Product description must be at least 10 characters long.")
-    .escape()
-    .isAlphanumeric()
-    .withMessage(
-      "Product description must only contain alphanumeric characters"
-    ),
+    .escape(),
   body("category", "You must select a category for this product")
     .trim()
     .isLength({ min: 1 })
@@ -129,7 +125,8 @@ exports.product_update_get = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/products/all");
     return;
   }
-
+  // debug(allCategories);
+  // debug(product);
   res.render("inventory/product_form", {
     title: "Product update",
     product,
@@ -143,18 +140,12 @@ exports.product_update_post = [
     .trim()
     .isLength({ min: 3 })
     .withMessage("Name must be at least 3 characters long.")
-    .escape()
-    .isAlphanumeric()
-    .withMessage("Name must only contain alphanumeric characters."),
+    .escape(),
   body("description")
     .trim()
     .isLength({ min: 10 })
     .withMessage("Product description must be at least 10 characters long.")
-    .escape()
-    .isAlphanumeric()
-    .withMessage(
-      "Product description must only contain alphanumeric characters"
-    ),
+    .escape(),
   body("category", "You must select a category for this product")
     .trim()
     .isLength({ min: 1 })
@@ -172,6 +163,8 @@ exports.product_update_post = [
       stock: req.body.stock,
       _id: req.params.id,
     });
+
+    // debug(updatedProduct);
 
     if (!errors.isEmpty()) {
       const allCategories = await Category.find({}).exec();
@@ -216,3 +209,31 @@ exports.product_delete_post = asyncHandler(async (req, res, next) => {
     res.redirect("/inventory/products/all");
   }
 });
+
+exports.product_image_get = asyncHandler(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  res.render("inventory/product_file_form", {
+    title: "Upload image",
+    product,
+    errors: undefined,
+  });
+});
+
+exports.product_image_post = [
+  upload.single("image"),
+  asyncHandler(async (req, res, next) => {
+    const product = await Product.findById(req.params.id).exec();
+    const updatedProduct = new Product({
+      name: product.name,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      stock: product.stock,
+      _id: product._id,
+      imageurl: req.file.filename,
+    });
+    debug("image: " + req.file);
+    await Product.findByIdAndUpdate(req.params.id, updatedProduct, {});
+    res.redirect(updatedProduct.url);
+  }),
+];

@@ -29,7 +29,7 @@
     <div>
       <label for="category">Category:</label>
       <select name="category" id="category" required aria-placeholder="Select category">
-        <% categories.forEach(cat => { %>
+        <%if (categories) categories.forEach(cat => { %>
           <option value="<%= cat._id %>" <%= product ? product.category._id.toString() === cat._id.toString() ? 'selected' : '' : '' %>><%= cat.name %></option>
         <% }) %>
       </select>
